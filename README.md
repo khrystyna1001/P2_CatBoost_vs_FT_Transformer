@@ -1,0 +1,1 @@
+High-cardinality categorical features are where tabular models differ most. CatBoost encodes them with ordered target statistics; FT-Transformer learns an embedding per category and lets attention combine them. Which approach generalises better, handles unseen categories more gracefully, and gives explanations that agree?
