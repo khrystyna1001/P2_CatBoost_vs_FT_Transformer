@@ -1,0 +1,101 @@
+\documentclass[twoside,11pt]{article}
+
+% Any additional packages needed should be included after jmlr2e.
+\usepackage{jmlr2e}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{microtype}
+
+% Heading arguments are {volume}{year}{pages}{submitted}{published}{author-full-names}
+\jmlrheading{1}{2026}{1--2}{11/26}{--}{Khrystyna Koshova}
+\firstpageno{1}
+
+\begin{document}
+
+\title{High-Cardinality Categorical Features in Tabular Learning: Generalisation, Unseen Levels, and Explanation Agreement in CatBoost vs.\ FT-Transformer}
+
+\author{\name Khrystyna Koshova \email 236523@student.uek.krakow.pl \\
+       \addr Computer Science\\
+       Krakow University of Economics}
+
+\maketitle
+
+\begin{abstract}%
+Categorical features with high cardinality remain a central fault line between gradient-boosted decision trees and tabular deep learning. We propose a controlled empirical comparison between CatBoost, which computes online ordered target statistics over random permutations, and FT-Transformer, which projects each feature—including individual categorical levels—into a shared embedding space processed by self-attention. Using three benchmark datasets from OpenML spanning mixed and purely high-cardinality regimes, we evaluate out-of-sample generalisation, robustness to unseen test-time categories, and post-hoc feature attribution agreement.
+\end{abstract}
+
+\section{Research Question and Hypotheses}
+High-cardinality categorical columns pose a fundamental bias--variance trade-off: naive one-hot encoding induces extreme sparsity, whereas standard target encoding leaks label information and overfits rare levels. \textbf{CatBoost} \citep{prokhorenkova2018catboost} addresses this via \emph{ordered target statistics} (OTS) computed across random training permutations alongside on-the-fly categorical feature combinations. Conversely, \textbf{FT-Transformer} \citep{gorishniy2021revisiting} maps every numerical and categorical feature into dense token embeddings via a Feature Tokenizer and models higher-order interactions through multi-head self-attention.
+
+\paragraph{Central Research Question.}
+\emph{Across tabular regimes varying in categorical cardinality and class balance, how do CatBoost and FT-Transformer compare in (1) generalisation performance, (2) graceful degradation under unseen test-time categorical levels, and (3) agreement of post-hoc feature explanations?}
+
+We formulate three testable hypotheses:
+\begin{itemize}[leftmargin=*, nosep, topsep=2pt]
+    \item \textbf{H1 (Generalisation by Cardinality Regime):} CatBoost will outperform FT-Transformer on purely high-cardinality categorical data (\texttt{Amazon\_employee\_access}) due to OTS regularisation and combinatorial split search, whereas FT-Transformer will match or surpass CatBoost on mixed numerical--categorical datasets (\texttt{adult}, \texttt{bank-marketing}) where dense attention captures smooth cross-modal interactions.
+    \item \textbf{H2 (Graceful Degradation on Unseen Categories):} When encountering categorical levels absent from the training split, CatBoost will exhibit a smaller drop in predictive performance than FT-Transformer. CatBoost falls back smoothly to the global prior target statistic $p$, whereas FT-Transformer must route unseen levels to a shared \texttt{<UNK>} embedding token that receives sparse gradient updates unless rare categories are explicitly dropped during training.
+    \item \textbf{H3 (Explanation Agreement):} Cross-model explanation agreement—measured via Spearman rank correlation $\rho$ and Top-$k$ Jaccard overlap of feature attributions—will be high on low-cardinality and numerical features, but will diverge sharply on high-cardinality columns where CatBoost relies on target-conditioned split frequency while FT-Transformer distributes importance across attention heads.
+\end{itemize}
+
+\section{Datasets and Preprocessing}
+We select three binary classification datasets from OpenML via \texttt{sklearn.datasets.fetch\_openml}, recording exact version numbers to guarantee reproducibility (Table~\ref{tab:datasets}). All datasets exceed $30{,}000$ rows and represent distinct structural challenges:
+\begin{enumerate}[leftmargin=*, nosep, topsep=2pt]
+    \item \textbf{\texttt{adult}} (OpenML \texttt{version=2}, $48{,}842$ rows, $14$ features: $6$ numerical, $8$ categorical; max cardinality $42$): A standard mixed-type benchmark with moderate categorical cardinality and $\approx 23.9\%$ positive class prevalence.
+    \item \textbf{\texttt{bank-marketing}} (OpenML \texttt{version=1}, $45{,}211$ rows, $16$ features: $7$ numerical, $9$ categorical; max cardinality $12$): A mixed-type dataset exhibiting substantial class imbalance ($\approx 11.7\%$ positive rate).
+    \item \textbf{\texttt{Amazon\_employee\_access}} (OpenML \texttt{version=1}, $32{,}769$ rows, $9$ features: $0$ numerical, $9$ categorical; cardinalities up to $7{,}518$): A purely categorical, heavily imbalanced ($\approx 5.8\%$ negative / $94.2\%$ positive) dataset specifically suited to stress-testing high-cardinality encodings and unseen test categories.
+\end{enumerate}
+
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\caption{Summary of selected OpenML datasets, recorded versions, feature types, and cardinality profiles.}
+\label{tab:datasets}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+\textbf{Dataset} & \textbf{Ver.} & \textbf{Rows} & \textbf{Num / Cat} & \textbf{Max Card.} & \textbf{Minority} & \textbf{Unseen Test Cats} \\
+\midrule
+\texttt{adult} & \texttt{2} & $48{,}842$ & $6$ / $8$ & $42$ & $23.9\%$ & Natural + Synthetic \\
+\texttt{bank-marketing} & \texttt{1} & $45{,}211$ & $7$ / $9$ & $12$ & $11.7\%$ & Natural + Synthetic \\
+\texttt{Amazon\_employee\_access} & \texttt{1} & $32{,}769$ & $0$ / $9$ & $7{,}518$ & $5.8\%$ & Natural ($\approx 4$--$8\%$) \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\paragraph{Preprocessing.} Numerical features receive quantile transformation (fitted strictly on the training split) for FT-Transformer, while CatBoost consumes raw numerical values. Missing categorical values are treated as a dedicated level. For FT-Transformer (implemented via \texttt{rtdl\_revisiting\_models}), categorical levels unseen in training map to a dedicated out-of-vocabulary index; CatBoost handles unseen categories natively via prior smoothing.
+
+\section{Experimental Design, Metrics, and Tuning Budget}
+\paragraph{Stratified Split Design.} Because each dataset exceeds $30{,}000$ instances, we use a single deterministic, class-stratified \textbf{70\% / 15\% / 15\% train / validation / test split} (fixed random seed \texttt{42}) per dataset. All preprocessing scalers, vocabulary mappings, and target encoders are fitted exclusively on the training set.
+
+\paragraph{Primary and Secondary Evaluation Metrics.}
+Because two of the three datasets exhibit pronounced class imbalance, accuracy is misleading. Our \textbf{primary metric} is \textbf{ROC-AUC}, which is threshold-invariant and directly comparable across balanced and imbalanced tasks. We additionally report: (i) \textbf{PR-AUC} (Average Precision) to capture minority-class sensitivity; (ii) \textbf{Unseen-Slice ROC-AUC} and $\Delta\text{AUC}_{\text{unseen}}$ (performance degradation on test rows containing at least one unseen categorical level, supplemented by controlled random masking of $5\%$ of test categories into unseen tokens on \texttt{adult} and \texttt{bank-marketing}); and (iii) \textbf{Explanation Agreement}, quantified by instance-level Spearman rank correlation $\rho$ and Top-$3$ feature Jaccard similarity between CatBoost \texttt{TreeSHAP} values and FT-Transformer \texttt{KernelSHAP} / \texttt{GradientSHAP} attributions aggregated to the input-feature level.
+
+\paragraph{Hyperparameter Tuning Budget.}
+To ensure a fair comparison without disproportionate compute bias, each model receives an equal tuning budget of \textbf{30 Optuna (TPE) trials per dataset} evaluated on the 15\% validation split (maximising validation ROC-AUC), followed by retraining/checkpoint selection on the best configuration and single-pass evaluation on the held-out test set:
+\begin{itemize}[leftmargin=*, nosep, topsep=2pt]
+    \item \textbf{CatBoost:} Tune \texttt{depth} $\in [4, 10]$, \texttt{learning\_rate} $\in [10^{-3}, 0.3]$ (log-uniform), \texttt{l2\_leaf\_reg} $\in [1, 10]$, and \texttt{random\_strength} $\in [10^{-2}, 10]$, with up to $3{,}000$ trees and early stopping ($100$ rounds).
+    \item \textbf{FT-Transformer (\texttt{rtdl\_revisiting\_models}):} Tune \texttt{n\_blocks} $\in \{1, 2, 3, 4\}$, \texttt{d\_block} $\in \{64, 128, 192, 256\}$ (with $8$ attention heads), \texttt{attention\_dropout} $\in [0.0, 0.5]$, \texttt{ffn\_dropout} $\in [0.0, 0.5]$, and AdamW \texttt{learning\_rate} $\in [10^{-5}, 10^{-3}]$ with weight decay $\in [10^{-6}, 10^{-3}]$, trained with batch size $256$ and early stopping ($15$ epochs patience).
+\end{itemize}
+After tuning, we evaluate 5 random seeds for the optimal hyperparameter configuration of each model to report mean $\pm$ standard deviation on the test set.
+
+\begin{thebibliography}{2}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Gorishniy et~al.(2021)Gorishniy, Rubachev, Khrulkov, and Babenko]{gorishniy2021revisiting}
+Yury Gorishniy, Ivan Rubachev, Valentin Khrulkov, and Artem Babenko.
+\newblock Revisiting deep learning models for tabular data.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, volume~34, pages 18932--18943, 2021.
+
+\bibitem[Prokhorenkova et~al.(2018)Prokhorenkova, Gusev, Vorobev, Dorogush, and Gulin]{prokhorenkova2018catboost}
+Liudmila Prokhorenkova, Gleb Gusev, Aleksandr Vorobev, Anna~Veronika Dorogush, and Andrey Gulin.
+\newblock {CatBoost}: unbiased boosting with categorical features.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, volume~31, pages 6638--6648, 2018.
+
+\end{thebibliography}
+
+\end{document}

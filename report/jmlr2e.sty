@@ -1,0 +1,122 @@
+% jmlr2e.sty - Minimal, self-contained JMLR 2e style file
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jmlr2e}[2026/01/01 JMLR 2e Style File]
+
+\RequirePackage{epsfig}
+\RequirePackage{amssymb}
+\RequirePackage{natbib}
+\RequirePackage{graphicx}
+
+\bibpunct{(}{)}{;}{a}{,}{,}
+
+% Page layout matching JMLR specifications
+\setlength{\topmargin}{-0.5in}
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\evensidemargin}{0.25in}
+\setlength{\textwidth}{6.0in}
+\setlength{\textheight}{8.75in}
+\setlength{\headheight}{0.2in}
+\setlength{\headsep}{0.25in}
+\setlength{\footskip}{0.35in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.5pt}
+
+% Header & Metadata macros
+\def\@jmlrvolume{1}
+\def\@jmlryear{2026}
+\def\@jmlrpages{1--2}
+\def\@jmlrsubmitted{--}
+\def\@jmlrpublished{--}
+\def\@jmlrauthor{}
+\def\@shorttitle{}
+\def\@shortauthor{}
+\def\@editor{}
+
+\newcommand{\jmlrheading}[6]{%
+  \def\@jmlrvolume{#1}%
+  \def\@jmlryear{#2}%
+  \def\@jmlrpages{#3}%
+  \def\@jmlrsubmitted{#4}%
+  \def\@jmlrpublished{#5}%
+  \def\@jmlrauthor{#6}%
+}
+
+\newcommand{\ShortHeadings}[2]{%
+  \def\@shorttitle{#1}%
+  \def\@shortauthor{#2}%
+}
+
+\newcommand{\firstpageno}[1]{\setcounter{page}{#1}}
+\newcommand{\editor}[1]{\def\@editor{#1}}
+
+% Running headers (page 2+)
+\def\ps@jmlrheadings{%
+  \let\@oddfoot\@empty\let\@evenfoot\@empty
+  \def\@evenhead{\footnotesize\thepage\hfill\textsc{\@shortauthor}\hfill}%
+  \def\@oddhead{\footnotesize\hfill\textsc{\@shorttitle}\hfill\thepage}%
+}
+\pagestyle{jmlrheadings}
+
+
+% Author formatting macros
+\newcommand{\name}{\normalsize\bf}
+\newcommand{\email}{\normalsize\it}
+\newcommand{\addr}{\normalsize\it}
+
+\renewcommand{\author}[1]{\gdef\@author{#1}}
+
+% Custom \maketitle
+\renewcommand{\maketitle}{%
+  \thispagestyle{jmlrfirst}%
+  \begin{flushleft}
+    {\LARGE\bfseries \@title \par}
+    \vskip 1.2em
+    {\@author \par}
+    \ifx\@editor\@empty\else
+      \vskip 0.8em
+      {\small\textbf{Editor:} \@editor \par}
+    \fi
+  \end{flushleft}
+  \vskip 1em
+}
+
+% Abstract environment
+\renewenvironment{abstract}{%
+  \centerline{\large\bfseries Abstract}%
+  \vspace{0.4em}%
+  \begin{list}{}{%
+    \setlength{\leftmargin}{0.35in}%
+    \setlength{\rightmargin}{0.35in}%
+    \small}%
+  \item[]\ignorespaces
+}{%
+  \end{list}%
+  \vskip 0.8em
+}
+
+% Section formatting
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+  {-2.0ex \@plus -0.5ex \@minus -0.2ex}%
+  {1.0ex \@plus 0.2ex}%
+  {\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+  {-1.5ex \@plus -0.4ex \@minus -0.2ex}%
+  {0.6ex \@plus 0.2ex}%
+  {\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+  {-1.2ex \@plus -0.3ex \@minus -0.2ex}%
+  {0.4ex \@plus 0.2ex}%
+  {\normalsize\itshape}}
+
+% Standard JMLR theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+
+\newenvironment{proof}{\par\noindent\textbf{Proof\ }}{\hfill$\blacksquare$\par\vspace{4pt}}
+
+\endinput
