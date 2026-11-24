@@ -7,6 +7,7 @@ positions in the frame returned by data.datasets.load_dataset.
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import numpy as np
@@ -14,7 +15,7 @@ from sklearn.model_selection import train_test_split
 
 SPLIT_SEED = 2026
 FRACTIONS = (0.6, 0.2, 0.2)  # train / validation / test
-SPLIT_DIR = Path(__file__).resolve().parent / "splits"
+SPLIT_DIR = Path(os.environ.get("P2_SPLIT_DIR", Path(__file__).resolve().parent / "splits"))
 
 
 def make_split_indices(y: np.ndarray, seed: int = SPLIT_SEED) -> dict[str, np.ndarray]:

@@ -2,11 +2,17 @@
 
 Datasets are fetched from OpenML via sklearn.datasets.fetch_openml and cached
 locally by sklearn (~/scikit_learn_data). Data itself is never committed.
+
+If a local export exists in data/raw/<name>.pkl (see data/export_raw.py) it is
+used instead of contacting OpenML; this lets experiments run on machines without
+OpenML access. The directory can be overridden with the P2_RAW_DIR variable.
 """
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -29,6 +35,7 @@ TARGET_SPECS = {
 }
 
 MISSING_TOKEN = "<MISSING>"
+RAW_DIR = Path(os.environ.get("P2_RAW_DIR", Path(__file__).resolve().parent / "raw"))
 
 
 @dataclass(frozen=True)
@@ -41,10 +48,15 @@ class Dataset:
     target_name: str
 
 
-def load_dataset(name: str) -> Dataset:
+def load_dataset(name: str, use_local: bool = True) -> Dataset:
     """Fetch an OpenML dataset and return a normalized Dataset object."""
     if name not in OPENML_SPECS:
         raise ValueError(f"Unknown dataset {name!r}; expected one of {sorted(OPENML_SPECS)}")
+
+    local = RAW_DIR / f"{name}.pkl"
+    if use_local and local.exists():
+        ds = pd.read_pickle(local)
+        return Dataset(ds.name, ds.X, ds.y, list(ds.num_cols), list(ds.cat_cols), ds.target_name)
 
     spec = OPENML_SPECS[name]
     fetched = fetch_openml(name=spec["name"], version=spec["version"], as_frame=True)

@@ -1,0 +1,4 @@
+# M2 — Part A baseline: default hyper-parameters, validation scores only.
+datasets: [adult, bank-marketing, amazon_employee_access]
+seeds: [0, 1, 2]          # classical models with randomness: 3 seeds
+output: results/m2_part_a_baseline.csv

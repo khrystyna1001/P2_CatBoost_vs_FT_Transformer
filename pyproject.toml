@@ -1,15 +1,31 @@
 [project]
 name = "p2-catboost-vs-ft-transformer"
-version = "0.1.0"
-description = "Add your description here"
+version = "1.0.0"
+description = "Joint capstone P2: CatBoost (ordered target statistics) vs FT-Transformer (learned embeddings + attention) on high-cardinality categorical data"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "catboost>=1.2.10",
     "certifi>=2026.10.23",
     "fastapi>=0.163.1",
+    "httpx>=0.28.1",
     "lightgbm>=4.7.0",
+    "matplotlib>=3.11.2",
+    "onnx>=1.23.2",
+    "onnxruntime>=1.32.0",
+    "optuna>=5.1.0",
     "pandas<3",
+    "pytest>=9.2.0",
+    "pyyaml>=6.0.4",
+    "rtdl-revisiting-models>=0.0.2",
     "scikit-learn>=1.9.1",
+    "scipy>=1.18.1",
+    "shap>=0.54.1",
+    "tabulate>=0.10.0",
+    "torch>=2.15.0",
+    "umap-learn>=0.6.0",
     "uvicorn>=0.54.0",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -6,3 +6,10 @@ __pycache__
 *.egg-info/
 dist/
 build/
+
+# data is never committed (download scripts only); local OpenML export
+data/raw/
+# trained models are release assets, not git
+models/
+.pytest_cache/
+.DS_Store
