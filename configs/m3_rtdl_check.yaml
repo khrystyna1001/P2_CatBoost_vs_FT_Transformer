@@ -1,0 +1,8 @@
+# M3 — implementation check (to convergence, same settings as configs/m3_part_b_baseline.yaml): our FT-Transformer vs rtdl_revisiting_models.FTTransformer
+datasets: [adult]
+seeds: [0, 1, 2]
+architecture: {d: 192, n_blocks: 3, n_heads: 8, attn_dropout: 0.2, ffn_dropout: 0.1, residual_dropout: 0.0}
+optim: {lr: 1.0e-4, weight_decay: 1.0e-5, batch_size: 512}
+max_epochs: 30
+patience: 5
+output: results/m3_rtdl_check.csv

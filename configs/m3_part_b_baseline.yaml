@@ -1,0 +1,28 @@
+# M3 — Part B baseline: starting configurations from the brief, validation scores only.
+datasets: [adult, bank-marketing, amazon_employee_access]
+seeds:                   # FT-Transformer: 3 seeds on CPU (adult was run with 5 before the budget cut)
+  mlp: [0, 1, 2, 3, 4]
+  ft_transformer: [0, 1, 2]
+min_count: 10            # categories with < 10 training rows share index 0 with unseen ones
+max_epochs: 30
+patience: 5              # early stopping on validation ROC-AUC
+models:
+  mlp:
+    d_hidden: 256
+    n_layers: 3
+    dropout: 0.1
+    lr: 1.0e-3
+    weight_decay: 1.0e-5
+    batch_size: 512
+  ft_transformer:        # brief: 3 layers, 8 heads, d = 192
+    d: 192
+    n_blocks: 3
+    n_heads: 8
+    attn_dropout: 0.2
+    ffn_dropout: 0.1
+    residual_dropout: 0.0
+    lr: 1.0e-4
+    weight_decay: 1.0e-5
+    batch_size: 512
+output: results/m3_part_b_baseline.csv
+curves_output: results/m3_training_curves.csv
