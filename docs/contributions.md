@@ -18,5 +18,3 @@ Team: Khrystyna Koshova (236523), single-member team.
   implementation to check our own FT-Transformer (`src/part_b/check_rtdl.py`). The model that is
   trained, analysed and served is our own implementation in `src/part_b/models.py`.
 * CatBoost (Prokhorenkova et al., 2018; Apache 2.0) is used as a library.
-
-Signed: Khrystyna Koshova, ____________ (date)
