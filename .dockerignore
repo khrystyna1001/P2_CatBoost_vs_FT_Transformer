@@ -1,0 +1,7 @@
+.venv
+.git
+data/raw
+results
+report
+**/__pycache__
+models/**/*.pt

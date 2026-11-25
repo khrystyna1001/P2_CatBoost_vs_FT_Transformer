@@ -1,0 +1,9 @@
+# Runtime dependencies of the API image (CPU only; Part B runs on ONNX Runtime, no PyTorch)
+fastapi==0.165.0
+uvicorn==0.54.0
+pydantic==2.14.4
+numpy==2.5.5
+pandas==2.3.3
+scipy==1.18.1
+catboost==1.2.10
+onnxruntime==1.32.0

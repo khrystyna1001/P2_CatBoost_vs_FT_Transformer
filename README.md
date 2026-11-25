@@ -47,6 +47,16 @@ Write-up with the leakage explanation, rare/unseen categories and SHAP: **[docs/
 Test ROC-AUC, CatBoost vs FT-Transformer: adult 0.931 vs 0.918, bank-marketing 0.939 vs 0.938 (equivalent within ROPE),
 Amazon 0.870 vs 0.807. Hypotheses, ablation, explanations and limitations: **[docs/m4_results.md](docs/m4_results.md)**.
 
+## M5 — Deployment
+
+ONNX export (`src/part_b/export_onnx.py`), FastAPI service (`api/main.py`: `/health`, `/model-info`, `/predict`, `/explain`),
+`api/Dockerfile`, load test (`api/load_test.py`) and latency tables: **[docs/m5_deployment.md](docs/m5_deployment.md)**.
+
+```bash
+uv run uvicorn api.main:app --port 8000                 # needs models/ (see docs/m5_deployment.md)
+docker build -f api/Dockerfile -t p2-api . && docker run --rm -p 8000:8000 p2-api
+```
+
 ## Tests
 
 ```bash
