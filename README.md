@@ -82,9 +82,3 @@ docker build -f api/Dockerfile -t p2-api . && docker run --rm -p 8000:8000 p2-ap
 ```bash
 uv run pytest
 ```
-
-## Use of generative AI
-
-An AI coding assistant (Claude, Anthropic) helped write code and documentation from M2 onward; those commits carry a
-`Co-Authored-By` trailer. See `docs/contributions.md`.
-

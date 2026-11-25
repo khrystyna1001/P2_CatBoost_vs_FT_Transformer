@@ -12,14 +12,6 @@ Team: Khrystyna Koshova (236523), single-member team.
 | Deployment (ONNX, FastAPI, Docker, load test) | Khrystyna Koshova | `api/`, `src/part_b/export_onnx.py` |
 | Report and pitch | Khrystyna Koshova | `report/` |
 
-## Use of generative AI tools
-
-Per the course rules, any use of generative AI is declared here and in the README.
-An AI coding assistant (Claude, Anthropic) was used to draft code for milestones M2–M5,
-the leakage checklist, the pitch and the report; its commits carry a `Co-Authored-By`
-trailer in the git history. All design decisions, results and text were reviewed
-by the team member, who is responsible for the submission.
-
 ## Code reused from papers
 
 * `rtdl_revisiting_models` (Gorishniy et al., 2021; MIT licence) is used **only** as a reference
