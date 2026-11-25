@@ -36,6 +36,22 @@ Test ROC-AUC (mean over 3 seeds):
 
 Write-up with the leakage explanation, rare/unseen categories and SHAP: **[docs/part_a_results.md](docs/part_a_results.md)**.
 
+## Part B — Deep Learning (status: complete)
+
+Same splits and preprocessing protocol as Part A. Models: an MLP with categorical embeddings and an FT-Transformer
+(`nn.TransformerEncoder`, pre-norm, ReGLU, [CLS] token; rare/unseen levels map to a reserved embedding index 0).
+
+| Step | Command | Output |
+|---|---|---|
+| Baseline (M3): MLP 5 seeds, FT-Transformer 3 seeds, validation only | `uv run python src/part_b/baseline.py` | `results/m3_part_b_baseline.csv`, `results/m3_training_curves.csv` |
+| Check against the reference FT-Transformer implementation | `uv run python src/part_b/check_rtdl.py` | `results/m3_rtdl_check.csv` |
+| Tuning (Optuna, 12 trials/family), 5 seeds, attention, embeddings, ablation (M4) | `uv run python src/part_b/tune.py` | `results/m4_part_b_runs_*`, `models/<dataset>/` |
+| ONNX export (M5) | `uv run python src/part_b/export_onnx.py` | `models/<dataset>/ft_transformer.onnx` |
+
+Test ROC-AUC (mean over 5 seeds): MLP 0.911 / 0.934 / 0.818 and FT-Transformer 0.918 / 0.938 / 0.807 on adult /
+bank-marketing / Amazon. Details: [docs/part_b_baseline.md](docs/part_b_baseline.md) (M3) and
+[docs/m4_results.md](docs/m4_results.md). Deviations from the brief: [docs/deviations.md](docs/deviations.md).
+
 ## M4 — Full results (Part A + Part B)
 
 | Step | Command | Output |
@@ -57,6 +73,10 @@ uv run uvicorn api.main:app --port 8000                 # needs models/ (see doc
 docker build -f api/Dockerfile -t p2-api . && docker run --rm -p 8000:8000 p2-api
 ```
 
+## M6 — Pitch
+
+5-minute pitch with one key result: [docs/m6_pitch.md](docs/m6_pitch.md), deck `report/pitch/m6_pitch.pptx`.
+
 ## Tests
 
 ```bash
@@ -67,3 +87,4 @@ uv run pytest
 
 An AI coding assistant (Claude, Anthropic) helped write code and documentation from M2 onward; those commits carry a
 `Co-Authored-By` trailer. See `docs/contributions.md`.
+
