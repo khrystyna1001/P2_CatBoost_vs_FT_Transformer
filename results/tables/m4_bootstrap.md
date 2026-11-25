@@ -1,0 +1,8 @@
+| dataset                | metric        |   diff_catboost_minus_ftt |   ci_low |   ci_high |   p_catboost_better |   rope | decision               |   seed_pair_diff_min |   seed_pair_diff_max |
+|:-----------------------|:--------------|--------------------------:|---------:|----------:|--------------------:|-------:|:-----------------------|---------------------:|---------------------:|
+| adult                  | roc_auc       |                    0.0124 |   0.0104 |    0.0144 |              1.0000 | 0.0050 | CatBoost better        |               0.0111 |               0.0133 |
+| adult                  | avg_precision |                    0.0341 |   0.0285 |    0.0400 |              1.0000 | 0.0100 | CatBoost better        |               0.0309 |               0.0376 |
+| bank-marketing         | roc_auc       |                    0.0016 |  -0.0007 |    0.0037 |              0.9215 | 0.0050 | practically equivalent |               0.0002 |               0.0030 |
+| bank-marketing         | avg_precision |                    0.0076 |  -0.0067 |    0.0214 |              0.8470 | 0.0100 | undecided              |              -0.0020 |               0.0149 |
+| amazon_employee_access | roc_auc       |                    0.0629 |   0.0470 |    0.0784 |              1.0000 | 0.0050 | CatBoost better        |               0.0491 |               0.0761 |
+| amazon_employee_access | avg_precision |                    0.0064 |   0.0035 |    0.0091 |              1.0000 | 0.0100 | practically equivalent |               0.0040 |               0.0085 |

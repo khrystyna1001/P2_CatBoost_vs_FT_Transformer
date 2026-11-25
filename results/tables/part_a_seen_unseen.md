@@ -1,0 +1,14 @@
+| dataset                | feature        | model       |   auc_all |   n_seen |   auc_seen |   n_rare |   auc_rare |   n_unseen |   auc_unseen |   auc_stress_all_unseen |   stress_drop |
+|:-----------------------|:---------------|:------------|----------:|---------:|-----------:|---------:|-----------:|-----------:|-------------:|------------------------:|--------------:|
+| adult                  | native-country | onehot_lr   |    0.9085 |     9767 |     0.9085 |        2 |   nan      |          0 |     nan      |                  0.9087 |       -0.0003 |
+| adult                  | native-country | ordinal_hgb |    0.9297 |     9767 |     0.9298 |        2 |   nan      |          0 |     nan      |                  0.9270 |        0.0028 |
+| adult                  | native-country | te_lgbm     |    0.9297 |     9767 |     0.9297 |        2 |   nan      |          0 |     nan      |                  0.9296 |        0.0000 |
+| adult                  | native-country | catboost    |    0.9308 |     9767 |     0.9309 |        2 |   nan      |          0 |     nan      |                  0.9299 |        0.0009 |
+| bank-marketing         | V2             | onehot_lr   |    0.9102 |     9043 |     0.9102 |        0 |   nan      |          0 |     nan      |                  0.9093 |        0.0009 |
+| bank-marketing         | V2             | ordinal_hgb |    0.9345 |     9043 |     0.9345 |        0 |   nan      |          0 |     nan      |                  0.9345 |        0.0000 |
+| bank-marketing         | V2             | te_lgbm     |    0.9362 |     9043 |     0.9362 |        0 |   nan      |          0 |     nan      |                  0.9367 |       -0.0005 |
+| bank-marketing         | V2             | catboost    |    0.9396 |     9043 |     0.9396 |        0 |   nan      |          0 |     nan      |                  0.9388 |        0.0008 |
+| amazon_employee_access | RESOURCE       | onehot_lr   |    0.8322 |     3058 |     0.8490 |     2409 |     0.8295 |       1087 |       0.7955 |                  0.8144 |        0.0178 |
+| amazon_employee_access | RESOURCE       | ordinal_hgb |    0.8167 |     3058 |     0.8359 |     2409 |     0.8121 |       1087 |       0.7893 |                  0.7855 |        0.0312 |
+| amazon_employee_access | RESOURCE       | te_lgbm     |    0.8390 |     3058 |     0.8520 |     2409 |     0.8339 |       1087 |       0.8128 |                  0.8176 |        0.0214 |
+| amazon_employee_access | RESOURCE       | catboost    |    0.8741 |     3058 |     0.8869 |     2409 |     0.8706 |       1087 |       0.8266 |                  0.8377 |        0.0364 |

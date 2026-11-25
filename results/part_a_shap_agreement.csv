@@ -1,0 +1,4 @@
+dataset,n_features,kendall_tau_all,p_value,top10_overlap,top5_overlap,same_top1,catboost_top5,lgbm_te_top5
+adult,14,0.5824175824175825,0.003024811732028994,0.8,0.6,False,"relationship, age, capital-gain, education-num, hours-per-week","age, marital-status, relationship, capital-gain, occupation"
+bank-marketing,16,0.9,4.725564828078056e-09,1.0,0.8,True,"V12, V9, V11, V7, V6","V12, V9, V11, V7, V13"
+amazon_employee_access,9,0.5555555555555556,0.04461529982363316,1.0,0.8,False,"RESOURCE, MGR_ID, ROLE_DEPTNAME, ROLE_FAMILY_DESC, ROLE_CODE","MGR_ID, ROLE_FAMILY_DESC, RESOURCE, ROLE_DEPTNAME, ROLE_TITLE"

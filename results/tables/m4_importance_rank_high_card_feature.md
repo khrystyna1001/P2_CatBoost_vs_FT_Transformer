@@ -1,0 +1,5 @@
+| dataset                | feature        |   n_features |   n_levels |   catboost_shap_rank |   lightgbm_te_shap_rank |   ftt_attention_rank |   catboost_share |   lightgbm_te_share |   ftt_attention_share |
+|:-----------------------|:---------------|-------------:|-----------:|---------------------:|------------------------:|---------------------:|-----------------:|--------------------:|----------------------:|
+| adult                  | native-country |           14 |         42 |                   14 |                      14 |                   12 |           0.0108 |              0.0133 |                0.0637 |
+| bank-marketing         | V2             |           16 |         12 |                   14 |                      12 |                    8 |           0.0162 |              0.0258 |                0.0570 |
+| amazon_employee_access | RESOURCE       |            9 |       7518 |                    1 |                       3 |                    3 |           0.2021 |              0.1453 |                0.1454 |

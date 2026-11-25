@@ -1,0 +1,10 @@
+# M4 — joint analysis. The region of practical equivalence (ROPE) was fixed
+# before looking at test scores: differences below 0.005 ROC-AUC / 0.01 AP are
+# treated as practically irrelevant.
+datasets: [adult, bank-marketing, amazon_employee_access]
+bootstrap_resamples: 2000
+bootstrap_seed: 2026
+rope: {roc_auc: 0.005, avg_precision: 0.01}
+slice_models: [catboost, te_lgbm, onehot_lr, mlp, ft_transformer]
+min_slice_rows: 30
+ablations: [no_rare_bucket]

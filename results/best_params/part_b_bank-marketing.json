@@ -1,0 +1,31 @@
+{
+  "mlp": {
+    "params": {
+      "d_hidden": 128,
+      "n_layers": 3,
+      "dropout": 0.37112272198735796,
+      "lr": 0.00212969670411267,
+      "weight_decay": 8.615116869989555e-06,
+      "batch_size": 512
+    },
+    "best_val_auc": 0.9297117391683177,
+    "tuning_time_s": 50.992914821999875,
+    "n_trials": 12
+  },
+  "ft_transformer": {
+    "params": {
+      "d": 96,
+      "n_blocks": 2,
+      "n_heads": 8,
+      "attn_dropout": 0.06388403403736614,
+      "ffn_dropout": 0.4082392606705505,
+      "residual_dropout": 0.01967331366196827,
+      "lr": 0.0006474604988854504,
+      "weight_decay": 0.00018942180021447726,
+      "batch_size": 512
+    },
+    "best_val_auc": 0.9401438747059336,
+    "tuning_time_s": 822.9579079350001,
+    "n_trials": 12
+  }
+}

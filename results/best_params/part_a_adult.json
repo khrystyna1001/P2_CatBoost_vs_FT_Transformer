@@ -1,0 +1,51 @@
+{
+  "onehot_lr": {
+    "params": {
+      "C": 0.6448659499165934,
+      "min_frequency": 3
+    },
+    "best_val_auc": 0.9055211985041499,
+    "tuning_time_s": 6.167918974000003,
+    "n_trials": 12
+  },
+  "ordinal_hgb": {
+    "params": {
+      "learning_rate": 0.13320759648910344,
+      "max_iter": 211,
+      "max_leaf_nodes": 17,
+      "min_samples_leaf": 18,
+      "l2_regularization": 1.0390655754849423e-06
+    },
+    "best_val_auc": 0.9256712003695868,
+    "tuning_time_s": 12.121468368000002,
+    "n_trials": 12
+  },
+  "te_lgbm": {
+    "params": {
+      "n_estimators": 408,
+      "learning_rate": 0.04895801900297144,
+      "num_leaves": 19,
+      "min_child_samples": 31,
+      "reg_lambda": 0.01050239983703317,
+      "subsample": 0.7450709428407195,
+      "colsample_bytree": 0.6035900001073776,
+      "te_smooth": 2.252426775967655,
+      "subsample_freq": 1
+    },
+    "best_val_auc": 0.9271018293719281,
+    "tuning_time_s": 17.566337148000002,
+    "n_trials": 12
+  },
+  "catboost": {
+    "params": {
+      "depth": 5,
+      "learning_rate": 0.024864506385239116,
+      "l2_leaf_reg": 7.669182178436001,
+      "random_strength": 0.01955454737634343,
+      "iterations": 3000
+    },
+    "best_val_auc": 0.9292819437669759,
+    "tuning_time_s": 386.468681812,
+    "n_trials": 12
+  }
+}

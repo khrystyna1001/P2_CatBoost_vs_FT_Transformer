@@ -1,0 +1,4 @@
+dataset,n_features,tau_catboost_shap_vs_ftt_attention,p_catboost_shap_vs_ftt_attention,tau_catboost_shap_vs_lgbm_shap,top10_overlap_catboost_lgbm,top10_overlap_catboost_ftt,attention_seed_stability_tau,catboost_top3,ftt_top3
+adult,14,0.3626373626373627,0.07945689917354104,0.5824175824175825,0.8,0.9,0.12967032967032968,"relationship, age, capital-gain","age, marital-status, occupation"
+bank-marketing,16,0.45,0.015155343637698342,0.9,1.0,0.9,0.4133333333333334,"V12, V9, V11","V11, V12, V10"
+amazon_employee_access,9,0.611111111111111,0.02474096119929453,0.5555555555555556,1.0,1.0,0.711111111111111,"RESOURCE, MGR_ID, ROLE_DEPTNAME","MGR_ID, ROLE_DEPTNAME, RESOURCE"

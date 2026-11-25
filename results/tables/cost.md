@@ -1,0 +1,11 @@
+| dataset                | model          | runtime   |   train_time_s |   n_params | param_note   |   size_mb |   latency_b1_p50_ms |   latency_b1_p95_ms |   latency_b1000_p50_ms |   latency_b1000_p95_ms |
+|:-----------------------|:---------------|:----------|---------------:|-----------:|:-------------|----------:|--------------------:|--------------------:|-----------------------:|-----------------------:|
+| adult                  | catboost       | catboost  |         63.213 |       2919 | trees        |     3.194 |               0.317 |               0.523 |                  5.175 |                  8.317 |
+| adult                  | mlp            | pytorch   |          4.080 |     149232 | parameters   |     0.602 |               3.289 |               4.615 |                  7.526 |                  8.655 |
+| adult                  | ft_transformer | pytorch   |        114.620 |     162177 | parameters   |     0.661 |               3.791 |               4.903 |                153.044 |                184.312 |
+| bank-marketing         | catboost       | catboost  |         33.507 |       2076 | trees        |     1.838 |               0.276 |               0.327 |                  4.162 |                  6.653 |
+| bank-marketing         | mlp            | pytorch   |          5.360 |      38263 | parameters   |     0.159 |               3.391 |               3.632 |                  5.417 |                  5.802 |
+| bank-marketing         | ft_transformer | pytorch   |        146.820 |     157377 | parameters   |     0.642 |               4.033 |               4.348 |                119.759 |                160.107 |
+| amazon_employee_access | catboost       | catboost  |         14.983 |        290 | trees        |    11.787 |               0.347 |               0.442 |                  3.785 |                  4.442 |
+| amazon_employee_access | mlp            | pytorch   |          3.520 |     340868 | parameters   |     1.369 |               3.826 |               6.786 |                  9.179 |                 11.021 |
+| amazon_employee_access | ft_transformer | pytorch   |         32.680 |     271745 | parameters   |     1.095 |               3.883 |               5.578 |                 45.574 |                 57.844 |

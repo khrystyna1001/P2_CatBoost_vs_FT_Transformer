@@ -1,0 +1,9 @@
+# M4 — Part A tuning + final fits.
+# Equal budget: every model family (Part A and Part B) gets the same number of
+# Optuna trials on the same protocol (fit on train, score on validation).
+datasets: [adult, bank-marketing, amazon_employee_access]
+pipelines: [onehot_lr, ordinal_hgb, te_lgbm, catboost]   # + naive_te_lgbm (leakage demo, reuses te_lgbm params)
+n_trials: 12             # reduced from 60 (brief) / 30 (proposal): 2-core CPU, see README
+optuna_seed: 2026
+seeds: [0, 1, 2]
+predictions_dir: results/predictions

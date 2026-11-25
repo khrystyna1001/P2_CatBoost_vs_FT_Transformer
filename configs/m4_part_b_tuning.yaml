@@ -1,0 +1,13 @@
+# M4 — Part B tuning + final 5-seed runs + ablations.
+datasets: [adult, bank-marketing, amazon_employee_access]
+models: [mlp, ft_transformer]
+n_trials: 12              # same budget as Part A
+optuna_seed: 2026
+min_count: 10
+ftt_search: {d: [64, 96], n_blocks: [1, 2]}   # CPU-sized FT-Transformer
+tuning: {max_epochs: 12, patience: 3}
+final: {max_epochs: 25, patience: 4}
+seeds: [0, 1, 2, 3, 4]
+ablations: [no_rare_bucket]   # does index-0 bucketing of rare levels help on unseen ones? (H2)
+ablation_seeds: 3
+predictions_dir: results/predictions
